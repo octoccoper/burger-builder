@@ -14,12 +14,13 @@ class BurgerBuilder extends Component {
 
 state = {
     ingredients: {
-        cheese: 1,
-        salad: 1,
-        bacon: 1,
+        cheese: 0,
+        salad: 0,
+        bacon: 0,
         meat: 0
     },
-    totalPrice: 4
+    totalPrice: 2,
+    purchasable: false
 }
 
 addIngredientHandler = ( type ) => {
@@ -38,7 +39,7 @@ addIngredientHandler = ( type ) => {
     const updatedPrice = currentTotal + addedPrice;
 
     this.setState({ingredients: updatedIngredients, totalPrice: updatedPrice});
-    console.log(updatedIngredients, updatedPrice);
+    this.updatePurchaseState(updatedIngredients);
 }
 
 removeIngredientHandler = ( type ) => {
@@ -61,7 +62,7 @@ removeIngredientHandler = ( type ) => {
     const updatedPrice = currentTotal - deductedPrice;
 
     this.setState({ingredients: updatedIngredients, totalPrice: updatedPrice});
-    console.log(updatedIngredients, updatedPrice);
+    this.updatePurchaseState(updatedIngredients);
 }
 
 formatPrice = (price) => {
@@ -69,6 +70,17 @@ formatPrice = (price) => {
     return newPrice;
 }
 
+updatePurchaseState = (ingredients) => {
+    const sum = Object.keys(ingredients)
+    .map(igKey => {
+        return ingredients[igKey];
+    })
+    .reduce((sum, el) => {
+        return sum + el;
+    },0);
+    
+    this.setState({purchasable: sum > 0});
+}
     render() {
         const disabledInfo = {
             ...this.state.ingredients
@@ -88,6 +100,7 @@ formatPrice = (price) => {
                     removedIngredients={this.removeIngredientHandler}
                     disabled={disabledInfo}
                     price={this.formatPrice(this.state.totalPrice)}
+                    purchasable={this.state.purchasable}
                     />
             </Aux>
         );
