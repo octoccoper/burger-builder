@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import Aux from '../../hoc/Aux';
 import Burger from '../../components/Burger/Burger';
 import BuildControls from '../../components/Burger/BuildControls/BuildControls'
+import Modal from '../../components/UI/Modal/Modal';
+import TotalSummary from '../../components/Burger/TotalSummary/TotalSummary';
 
 const INGREDIENT_PRICES = {
     cheese: 0.6,
@@ -94,6 +96,11 @@ updatePurchaseState = (ingredients) => {
 
         return (
             <Aux>
+                <Modal>
+                    <TotalSummary 
+                        ingredients={this.state.ingredients}
+                        total={this.formatPrice(this.state.totalPrice)}/>
+                </Modal>
                 <Burger ingredients={this.state.ingredients}/>
                 <BuildControls 
                     addedIngredients={this.addIngredientHandler}

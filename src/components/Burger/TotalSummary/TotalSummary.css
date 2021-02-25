@@ -1,0 +1,16 @@
+.TotalHeading {
+    text-transform: capitalize;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.TotalList {
+    text-align: left;
+    padding: 0 40px;
+}
+
+.IngredientName {
+    font-weight: bold;
+    text-transform: capitalize;
+}
