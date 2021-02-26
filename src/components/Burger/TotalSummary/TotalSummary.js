@@ -18,6 +18,7 @@ const TotalSummary = (props) => {
                 {ingredients}
             </ol>
             <p>Total: {props.total}</p>
+            <button>Checkout</button>
         </Aux>
     );
 }

@@ -22,7 +22,8 @@ state = {
         meat: 0
     },
     totalPrice: 2,
-    purchasable: false
+    purchasable: false,
+    purchasing: false
 }
 
 addIngredientHandler = ( type ) => {
@@ -83,10 +84,19 @@ updatePurchaseState = (ingredients) => {
     
     this.setState({purchasable: sum > 0});
 }
-    render() {
-        const disabledInfo = {
-            ...this.state.ingredients
-        }
+
+purchaseHandler = () => {
+    this.setState({purchasing: true});
+}
+
+hideModal = () => {
+    this.setState({purchasing: false});
+}
+
+render() {
+    const disabledInfo = {
+        ...this.state.ingredients
+    }
 
         for(let key in disabledInfo) {
             disabledInfo[key] === 0 ? 
@@ -94,24 +104,28 @@ updatePurchaseState = (ingredients) => {
                 disabledInfo[key] = false;
         }
 
-        return (
-            <Aux>
-                <Modal>
-                    <TotalSummary 
-                        ingredients={this.state.ingredients}
-                        total={this.formatPrice(this.state.totalPrice)}/>
-                </Modal>
-                <Burger ingredients={this.state.ingredients}/>
-                <BuildControls 
-                    addedIngredients={this.addIngredientHandler}
-                    removedIngredients={this.removeIngredientHandler}
-                    disabled={disabledInfo}
-                    price={this.formatPrice(this.state.totalPrice)}
-                    purchasable={this.state.purchasable}
-                    />
-            </Aux>
-        );
-    }
+    return (
+        <Aux>
+            <Modal 
+                show={this.state.purchasing}
+                closing={this.hideModal}>
+                <TotalSummary 
+                    ingredients={this.state.ingredients}
+                    total={this.formatPrice(this.state.totalPrice)}/>
+            </Modal>
+
+            <Burger ingredients={this.state.ingredients}/>
+
+            <BuildControls 
+                addedIngredients={this.addIngredientHandler}
+                removedIngredients={this.removeIngredientHandler}
+                disabled={disabledInfo}
+                price={this.formatPrice(this.state.totalPrice)}
+                purchasable={this.state.purchasable}
+                ordered={this.purchaseHandler} />
+        </Aux>
+    );
+}
 }
 
 export default BurgerBuilder;
