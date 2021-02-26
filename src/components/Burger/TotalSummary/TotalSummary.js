@@ -1,14 +1,18 @@
 import React from 'react';
 import Aux from '../../../hoc/Aux';
 import classes from './TotalSummary.css'
+import Button from '../../UI/Button/Button';
 
 const TotalSummary = (props) => {
 
     const ingredients = Object.keys(props.ingredients)
     .map(igKey => {
-        return (<li key={igKey}><span className={classes.IngredientName}>{igKey}</span>: {props.ingredients[igKey]}</li>);
+        return (
+        <li key={igKey}>
+            <span className={classes.IngredientName}>{igKey}</span>
+            : {props.ingredients[igKey]}
+        </li>);
     });
-
 
     return (
         <Aux>
@@ -17,8 +21,12 @@ const TotalSummary = (props) => {
             <ol className={classes.TotalList}>
                 {ingredients}
             </ol>
-            <p>Total: {props.total}</p>
-            <button>Checkout</button>
+
+            <p className={classes.Total}>Total is: {props.total}</p>
+
+            <p>Do you want to continue Checkout?</p>
+            <Button btnType="Danger" clicked={}>Cancel</Button>
+            <Button btnType="Success" clicked={}>Checkout</Button>
         </Aux>
     );
 }
