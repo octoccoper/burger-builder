@@ -25,8 +25,8 @@ const TotalSummary = (props) => {
             <p className={classes.Total}>Total is: {props.total}</p>
 
             <p>Do you want to continue Checkout?</p>
-            <Button btnType="Danger" clicked={}>Cancel</Button>
-            <Button btnType="Success" clicked={}>Checkout</Button>
+            <Button btnType="Danger" clicked={props.purchaseCancelled}>Cancel</Button>
+            <Button btnType="Success" clicked={props.purchaseContinued}>Checkout</Button>
         </Aux>
     );
 }

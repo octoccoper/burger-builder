@@ -93,6 +93,10 @@ hideModal = () => {
     this.setState({purchasing: false});
 }
 
+purchaseContinueHandler = () => {
+    console.log("You clicked on btn Checkout");
+}
+
 render() {
     const disabledInfo = {
         ...this.state.ingredients
@@ -111,7 +115,9 @@ render() {
                 closing={this.hideModal}>
                 <TotalSummary 
                     ingredients={this.state.ingredients}
-                    total={this.formatPrice(this.state.totalPrice)}/>
+                    total={this.formatPrice(this.state.totalPrice)}
+                    purchaseCancelled={this.hideModal}
+                    purchaseContinued={this.purchaseContinueHandler}/>
             </Modal>
 
             <Burger ingredients={this.state.ingredients}/>
