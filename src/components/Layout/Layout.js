@@ -21,8 +21,6 @@ class Layout extends Component {
         this.setState({
             showSideDrawer: toggledState
         });
-
-        console.log("clickedMenuToggleHandler, toggledState:",toggledState);
     }
 
     render () {
