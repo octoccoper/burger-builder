@@ -15,14 +15,24 @@ class Layout extends Component {
         });
     }
 
+    clickedMenuToggleHandler = () => {
+        let toggledState = !this.state.showSideDrawer;
+
+        this.setState({
+            showSideDrawer: toggledState
+        });
+
+        console.log("clickedMenuToggleHandler, toggledState:",toggledState);
+    }
+
     render () {
         return (
             <Aux>
+
                 <SideDrawer 
                     open={this.state.showSideDrawer} 
                     closed={this.sideDrawerCloseHandler}/>
-
-                <Toolbar />
+                <Toolbar clicked={this.clickedMenuToggleHandler}/>
 
                 <main className={classes.Content}>
                     { this.props.children }               
