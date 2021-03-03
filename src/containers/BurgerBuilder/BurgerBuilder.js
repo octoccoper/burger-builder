@@ -4,6 +4,7 @@ import Burger from '../../components/Burger/Burger';
 import BuildControls from '../../components/Burger/BuildControls/BuildControls'
 import Modal from '../../components/UI/Modal/Modal';
 import TotalSummary from '../../components/Burger/TotalSummary/TotalSummary';
+import axios from '../../libs/axios/axios';
 
 const INGREDIENT_PRICES = {
     cheese: 0.6,
@@ -39,7 +40,7 @@ addIngredientHandler = ( type ) => {
 
     const currentTotal = this.state.totalPrice;
     const addedPrice = INGREDIENT_PRICES[type];
-    const updatedPrice = currentTotal + addedPrice;
+    const updatedPrice = Number((currentTotal + addedPrice).toFixed(2));
 
     this.setState({ingredients: updatedIngredients, totalPrice: updatedPrice});
     this.updatePurchaseState(updatedIngredients);
@@ -62,15 +63,10 @@ removeIngredientHandler = ( type ) => {
 
     const currentTotal = this.state.totalPrice;
     const deductedPrice = INGREDIENT_PRICES[type];
-    const updatedPrice = currentTotal - deductedPrice;
+    const updatedPrice = Number((currentTotal - deductedPrice).toFixed(2));
 
     this.setState({ingredients: updatedIngredients, totalPrice: updatedPrice});
     this.updatePurchaseState(updatedIngredients);
-}
-
-formatPrice = (price) => {
-    const newPrice = price.toFixed(2) + '$';
-    return newPrice;
 }
 
 updatePurchaseState = (ingredients) => {
@@ -94,7 +90,28 @@ hideModal = () => {
 }
 
 purchaseContinueHandler = () => {
-    console.log("You clicked on btn Checkout");
+    const order = {
+        ingredients: this.state.ingredients,
+
+        total: this.state.totalPrice,
+
+        customer: {
+            name: 'Test Name',
+            address: { 
+                street: 'Test street 1',
+                zipCode: '12345',
+                country: 'Germany'
+            },
+            email: 'test@email.com',
+            phone: '0502356695'
+        },
+
+        deliveryMethod: 'Nova Poshta'
+    }
+
+    axios.post('/orders.json',order)
+    .then(response => console.log("[BurgerBuilder.js] post order data, response:", response))
+    .catch(error => console.log("[BurgerBuilder.js] post order data, error:", error));
 }
 
 render() {
@@ -115,7 +132,7 @@ render() {
                 closing={this.hideModal}>
                 <TotalSummary 
                     ingredients={this.state.ingredients}
-                    total={this.formatPrice(this.state.totalPrice)}
+                    total={this.state.totalPrice}
                     purchaseCancelled={this.hideModal}
                     purchaseContinued={this.purchaseContinueHandler}/>
             </Modal>
@@ -126,7 +143,7 @@ render() {
                 addedIngredients={this.addIngredientHandler}
                 removedIngredients={this.removeIngredientHandler}
                 disabled={disabledInfo}
-                price={this.formatPrice(this.state.totalPrice)}
+                price={this.state.totalPrice}
                 purchasable={this.state.purchasable}
                 ordered={this.purchaseHandler} />
         </Aux>
