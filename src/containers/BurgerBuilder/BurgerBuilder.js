@@ -6,6 +6,7 @@ import Modal from '../../components/UI/Modal/Modal';
 import TotalSummary from '../../components/Burger/TotalSummary/TotalSummary';
 import axios from '../../libs/axios/axios';
 import Spinner from '../../components/UI/Spinner/Spinner';
+import withErrorHandler from '../../hoc/withErrorHandler/withErrorHandler';
 
 const INGREDIENT_PRICES = {
     cheese: 0.6,
@@ -169,4 +170,4 @@ render() {
 }
 }
 
-export default BurgerBuilder;
+export default withErrorHandler(BurgerBuilder, axios);
