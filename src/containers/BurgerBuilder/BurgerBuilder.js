@@ -22,7 +22,8 @@ state = {
     totalPrice: 2,
     purchasable: false,
     purchasing: false,
-    loading: false
+    loading: false,
+    error: false
 }
 
 addIngredientHandler = ( type ) => {
@@ -112,13 +113,12 @@ purchaseContinueHandler = () => {
     axios.post('/orders.json',order)
     .then(response => {
         console.log("[BurgerBuilder.js] post order data, response:", response);
-         this.setState({loading: false, purchasing: false});
+        this.setState({loading: false, purchasing: false});
     })
     .catch(error => {
         console.log("[BurgerBuilder.js] post order data, error:", error);
-         this.setState({loading: false, purchasing: false});
+        this.setState({loading: false, purchasing: false, error: true});
     });
-
 }
 
 componentDidMount () {
@@ -129,10 +129,8 @@ componentDidMount () {
     })
     .catch(error => {
         console.log("[BurgerBuilder.js] get ingredients, error:", error);
-         this.setState({loading: false, purchasing: false});
+         this.setState({loading: false, purchasing: false, error: true});
     });
-
-
 }
 
 render() {
@@ -140,10 +138,9 @@ render() {
         ...this.state.ingredients
     }
 
-    let burgerContainer = <Spinner/>;
+    let burgerContainer = this.state.error ? <p> Network error appeared. Application stopped. </p> : <Spinner/>;
 
     let totalSummary = null;
-
 
         for(let key in disabledInfo) {
             disabledInfo[key] === 0 ? 
